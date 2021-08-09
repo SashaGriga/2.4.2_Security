@@ -14,15 +14,16 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping("")
 public class UserController {
-	@GetMapping(value = {"/", "/user"})
+	@GetMapping(value = {"/user"})
 	public String getUserPage(ModelMap model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		model.addAttribute("user", userDetails);
 		return "user";
 	}
 
-	@GetMapping("/hello")
+	@GetMapping(value = "/hello")
 	public String printWelcome(ModelMap model) {
 		List<String> messages = new ArrayList<>();
 		messages.add("Hello!");

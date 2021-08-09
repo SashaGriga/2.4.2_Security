@@ -1,7 +1,9 @@
 package web.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -33,7 +35,6 @@ public class User implements UserDetails {
     //«жадная» загрузка, т.е. список ролей загружается вместе с пользователем сразу
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
 
     public User(Long id, String name, String surname, String department, int salary, String password) {
         this.id = id;

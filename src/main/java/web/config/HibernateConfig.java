@@ -24,9 +24,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource(value = "classpath:db.properties")
 public class HibernateConfig {
-
-    @Autowired
     private Environment environment;
+    @Autowired
+    public void DIEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

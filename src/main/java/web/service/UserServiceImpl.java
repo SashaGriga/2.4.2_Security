@@ -1,6 +1,7 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
@@ -16,28 +17,41 @@ import java.util.Set;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    private UserDao userDao;
     @Autowired
-    UserDao userDao;
+    public void DIUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
-    @Autowired
     private RoleDao roleDao;
+    @Autowired
+    public void DIRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     public UserServiceImpl() {}
+
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    public void DIPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     @Override
     public void add(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.add(user);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     @Override
     public User getUserById(Long id) {
         return (User) userDao.getUserById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     @SuppressWarnings("unchecked")
     public List<User> getListUsers() {
         return userDao.getListUsers();
@@ -55,13 +69,13 @@ public class UserServiceImpl implements UserService {
         userDao.delete(id);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     @Override
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     @Override
     public Set<Role> getAllRoles() {
         return roleDao.getAllRoles();

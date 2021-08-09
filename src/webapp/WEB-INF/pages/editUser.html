@@ -16,7 +16,7 @@
         <input type="submit" value="Logout"/>
     </form>
 </div>
-<form th:action="@{/editUser}" method="post" th:object="${user}">
+<form th:action="@{/admin/editUser}" method="post" th:object="${user}">
     <input type="hidden" name="id" th:value="${user.id}">
     <fieldset>
         <legend>Edit user</legend>
@@ -37,7 +37,7 @@
             <input type="text" name="salary" th:id="salary" th:value="${user.salary}">
         </p>
         <p>
-            <label th:for="password">Password </label>
+            <label th:for="password">Password BCrypt</label>
             <input type="text" name="password" th:id="password" th:value="${user.password}">
         </p>
         <p>

@@ -3,20 +3,22 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import web.dao.UserDao;
 import web.model.User;
 import web.service.UserService;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private UserService userService;
 
-//    @GetMapping("/admin")
-    @GetMapping(value = "/admin", produces = "text/plain;charset=UTF-8")
+    private UserService userService;
+    @Autowired
+    public void UserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("")
     public String listUsers(ModelMap model) {
         model.addAttribute("listUsers", userService.getListUsers());
         model.addAttribute("allRoles", userService.getAllRoles());
