@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import web.config.handler.SuccessUserHandler;
+import web.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
     }
 
+    private AuthenticationManagerBuilder auth;
     @Autowired
+    public void AuthenticationManagerBuilder(AuthenticationManagerBuilder auth) {
+        this.auth = auth;
+    }
+
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         // конфигурация для прохождения аутентификации
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
